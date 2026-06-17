@@ -216,3 +216,24 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Archivos generados por el sistema TFG
+
+# Sesiones, cookies y cachés
+software/vision/src/.fusionsolar_session.json
+software/vision/src/open_meteo_cache.json
+software/vision/src/sun_times_cache.json
+
+# Carpetas de imágenes, depuración y resultados
+software/vision/src/input/
+software/vision/src/output/
+software/vision/src/result/
+software/vision/src/debug/
+software/vision/src/debug_result/
+
+# Logs y resúmenes generados
+software/vision/src/logs/
+software/vision/src/daily_summary/
+
+# Caché Python
+software/vision/src/__pycache__/
