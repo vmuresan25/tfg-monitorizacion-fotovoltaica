@@ -1,0 +1,10 @@
+[Unit]
+Description=Medicion horaria del sensor optico de suciedad
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/vasi/Escritorio/vision/src
+ExecStart=/home/vasi/Escritorio/vision/venv/bin/python /home/vasi/Escritorio/vision/src/sensor_optico_logger.py
+User=vasi

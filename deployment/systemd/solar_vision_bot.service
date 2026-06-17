@@ -1,0 +1,17 @@
+[Unit]
+Description=Solar Vision Telegram Bot
+After=network.target
+
+[Service]
+User=vasi
+Environment="BOT_TOKEN=BOT_TOKEN"
+Environment="TELEGRAM_CHAT_ID=TELEGRAM_CHAT_ID"
+Environment="FUSIONSOLAR_USERNAME=USUARIO_FUSIONSOLAR"
+Environment="FUSIONSOLAR_PASSWORD=PASSWORD_FUSIONSOLAR"
+WorkingDirectory=/home/vasi/Escritorio/vision/src
+ExecStart=/home/vasi/Escritorio/vision/venv/bin/python /home/vasi/Escritorio/vision/src/telegram_bot.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

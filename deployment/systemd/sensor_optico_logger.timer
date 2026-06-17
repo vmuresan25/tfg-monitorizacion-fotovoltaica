@@ -1,0 +1,10 @@
+[Unit]
+Description=Ejecutar medicion del sensor optico cada hora en punto
+
+[Timer]
+OnCalendar=*-*-* *:00:00
+Persistent=true
+Unit=sensor_optico_logger.service
+
+[Install]
+WantedBy=timers.target

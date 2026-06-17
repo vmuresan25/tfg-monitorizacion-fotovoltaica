@@ -1,0 +1,16 @@
+[Unit]
+Description=Solar Production Monitor
+After=network.target
+
+[Service]
+Type=oneshot
+User=vasi
+WorkingDirectory=/home/vasi/Escritorio/vision/src
+Environment="FUSIONSOLAR_USERNAME=USUARIO_FUSIONSOLAR"
+Environment="FUSIONSOLAR_PASSWORD=PASSWORD_FUSIONSOLAR"
+Environment="BOT_TOKEN=BOT_TOKEN"
+Environment="TELEGRAM_CHAT_ID=TELEGRAM_CHAT_ID"
+ExecStart=/home/vasi/Escritorio/vision/venv/bin/python /home/vasi/Escritorio/vision/src/run_solar_monitor.py
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Update Solar Sun Times Cache
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/vasi/Escritorio/vision/src
+ExecStart=/home/vasi/Escritorio/vision/venv/bin/python /home/vasi/Escritorio/vision/src/update_sun_times_cache.py
+TimeoutStartSec=60
