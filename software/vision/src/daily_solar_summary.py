@@ -10,7 +10,7 @@ import requests
 #CONFIG
 TIMEZONE = "Europe/Madrid"
 
-BASE_DIR = Path("/home/vasi/Escritorio/vision/src")
+BASE_DIR = Path(__file__).resolve().parent
 LOGS_DIR = BASE_DIR / "logs"
 DAILY_SUMMARY_DIR = BASE_DIR / "daily_summary"
 SUN_CACHE_FILE = BASE_DIR / "sun_times_cache.json"

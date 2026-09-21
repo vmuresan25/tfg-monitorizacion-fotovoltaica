@@ -12,7 +12,7 @@ TIMEZONE = "Europe/Madrid"
 
 OPEN_METEO_URL = "https://api.open-meteo.com/v1/forecast"
 
-BASE_DIR = Path("/home/vasi/Escritorio/vision/src")
+BASE_DIR = Path(__file__).resolve().parent
 SUN_CACHE_FILE = BASE_DIR / "sun_times_cache.json"
 
 
