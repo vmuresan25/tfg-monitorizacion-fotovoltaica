@@ -10,7 +10,7 @@ from pathlib import Path
 #CONFIG
 TIMEZONE = "Europe/Madrid"
 
-BASE_DIR = Path("/home/vasi/Escritorio/vision/src")
+BASE_DIR = Path(__file__).resolve().parent
 INPUT_DIR = BASE_DIR / "input"
 OUTPUT_DIR = BASE_DIR / "output"
 RESULT_DIR = BASE_DIR / "result"

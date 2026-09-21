@@ -16,7 +16,7 @@ ESP32_BASE_URL = "http://192.168.1.155"
 ESP32_MEDIR_URL = f"{ESP32_BASE_URL}/medir"
 ESP32_RESULTADO_URL = f"{ESP32_BASE_URL}/resultado"
 
-BASE_DIR = Path("/home/vasi/Escritorio/vision/src")
+BASE_DIR = Path(__file__).resolve().parent
 
 SENSOR_LOG_DIR = BASE_DIR / "logs" / "sensor_optico"
 SENSOR_LOG_DIR.mkdir(parents=True, exist_ok=True)
