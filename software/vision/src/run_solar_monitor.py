@@ -21,7 +21,7 @@ DAILY_SUMMARY_DIR = BASE_DIR / "daily_summary"
 
 ESP32_URL = "http://192.168.1.145/capture"
 
-PYTHON_PATH = sys.executable
+PYTHON_PATH = str(Path(sys.executable).resolve())
 
 
 #SOL
