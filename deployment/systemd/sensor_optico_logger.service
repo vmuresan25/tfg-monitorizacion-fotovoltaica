@@ -5,6 +5,6 @@ Wants=network-online.target
 
 [Service]
 Type=oneshot
-WorkingDirectory=/home/vasi/Escritorio/vision/src
-ExecStart=/home/vasi/Escritorio/vision/venv/bin/python /home/vasi/Escritorio/vision/src/sensor_optico_logger.py
 User=vasi
+WorkingDirectory=/home/vasi/Escritorio/vision/software/vision/src
+ExecStart=/home/vasi/Escritorio/vision/venv/bin/python /home/vasi/Escritorio/vision/software/vision/src/sensor_optico_logger.py
