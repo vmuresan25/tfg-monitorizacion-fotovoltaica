@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 import re
 import json
@@ -20,7 +21,7 @@ DAILY_SUMMARY_DIR = BASE_DIR / "daily_summary"
 
 ESP32_URL = "http://192.168.1.145/capture"
 
-PYTHON_PATH = "/home/vasi/Escritorio/vision/venv/bin/python"
+PYTHON_PATH = sys.executable
 
 
 #SOL
