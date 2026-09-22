@@ -237,3 +237,6 @@ software/vision/src/daily_summary/
 
 # Caché Python
 software/vision/src/__pycache__/
+
+# macOS
+.DS_Store
