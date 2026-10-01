@@ -13,7 +13,7 @@ The complete system runs automatically on a dedicated Linux server and was desig
 This project received a final grade of **10/10 with Honors (Matrícula de Honor)**.
 
 <p align="center">
-  <img src="docs/images/photovoltaic_installation.jpg" width="850" alt="Photovoltaic installation used during the project">
+  <img src="docs/images/photovoltaic_intallation.jpg" width="850" alt="Photovoltaic installation used during the project">
 </p>
 
 <p align="center">
