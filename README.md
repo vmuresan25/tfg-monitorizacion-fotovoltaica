@@ -4,56 +4,124 @@ This repository contains the photovoltaic monitoring system I developed for my B
 
 The project started with a simple question: **how can I tell whether a photovoltaic installation is producing what it should, and identify what may be causing a loss in performance?**
 
-To explore that problem, I built a monitoring system around a real residential photovoltaic installation consisting of 12 solar panels with a total installed capacity of 5 kWp.
+To explore that problem, I built and deployed a monitoring system on a real residential photovoltaic installation consisting of 12 solar panels with a total installed capacity of 5 kWp.
 
-Rather than relying on a single measurement, the system combines several sources of information: real production data from the inverter, theoretical production based on weather and irradiance data, computer vision, and an experimental optical sensor designed to measure soiling.
+Rather than relying on a single measurement, the system uses several sources of information: real production data from the inverter, theoretical production based on weather and irradiance data, computer vision, and an experimental optical sensor designed to measure soiling.
 
-The complete system runs automatically on a Linux server and was designed to operate continuously with minimal manual intervention.
+The complete system runs automatically on a dedicated Linux server and was designed to operate continuously with minimal manual intervention.
 
-The project received a final grade of **10/10 with Honors (Matrícula de Honor)**.
+This project received a final grade of **10/10 with Honors (Matrícula de Honor)**.
 
-## How it works
+<p align="center">
+  <img src="docs/images/photovoltaic_installation.jpg" width="850" alt="Photovoltaic installation used during the project">
+</p>
+
+<p align="center">
+  <em>The 5 kWp residential photovoltaic installation used to develop and test the system.</em>
+</p>
+
+---
+
+## How the system works
+
+The monitoring system brings together photovoltaic production data, meteorological information, computer vision and an experimental optical sensor.
+
+All of these components are coordinated by a Linux server responsible for executing the monitoring processes, storing results and generating notifications.
+
+<p align="center">
+  <img src="docs/images/system_architecture.png" width="850" alt="Photovoltaic monitoring system architecture">
+</p>
+
+The architecture shown above corresponds to the system developed during the Bachelor's Thesis.
+
+### Production monitoring
 
 One of the main parts of the project is the comparison between expected and actual photovoltaic production.
 
-Real production data is obtained from Huawei FusionSolar, while meteorological and solar irradiance data from Open-Meteo is used to estimate how much energy the installation should be producing under the current conditions.
+Real production data is obtained from **Huawei FusionSolar**, while meteorological and solar irradiance data from **Open-Meteo** is used to estimate how much power the installation should be producing under the current conditions.
 
-The system periodically compares both values and keeps track of deviations that may indicate a loss of performance.
+The system periodically compares both values and records deviations between expected and actual performance.
 
-But production data alone cannot explain why that loss is happening. For that reason, I experimented with two additional sources of information.
+This provides a first indication that something may be affecting the installation, but production data alone does not necessarily explain the cause of that deviation. For this reason, I explored additional ways of observing what was happening on the panels themselves.
 
-The first is computer vision. An ESP32-CAM captures images of a photovoltaic module and the images are processed to isolate the panel and analyze its surface. The processing pipeline was developed to identify objects, visible contamination and shaded areas that could affect production.
+### Computer vision
 
-The second is a custom optical sensor built around an ESP32, a BPW34 photodiode and a laser. A reference glass is exposed to the same environment as the photovoltaic installation, and changes in the amount of transmitted light are used as an experimental indicator of accumulated soiling.
+An **ESP32-CAM** is used to capture images of a photovoltaic module.
 
-These different measurements are combined with automated logging and monitoring processes running on Linux.
+The images are processed in Python to isolate the panel surface and analyze different elements that could affect its performance.
 
-## Automation
+The image-processing pipeline was developed to detect visible objects or contamination and identify areas affected by shadows. The resulting analysis provides an additional source of information alongside the production comparison.
+
+### Experimental optical soiling sensor
+
+One of the parts of the project that required the most experimentation was the development of a custom optical sensor for estimating accumulated dirt.
+
+The prototype is based on an **ESP32, a BPW34 photodiode, a laser and an exposed reference glass**.
+
+The idea is to measure how the transmission of light through the reference surface changes as dirt accumulates on it.
+
+<p align="center">
+  <img src="docs/images/optical_sensor_design.png" width="650" alt="Optical soiling sensor design">
+</p>
+
+The sensor went through several physical prototypes before reaching the version installed next to the photovoltaic panels.
+
+<p align="center">
+  <img src="docs/images/optical_sensor_development.png" width="850" alt="Development and installation of the optical sensor">
+</p>
+
+Building this part of the system involved not only programming the ESP32, but also designing and testing the physical structure, positioning the optical components and adapting the prototype for outdoor operation.
+
+---
+
+## Automation and continuous operation
 
 I wanted the project to work as an actual monitoring system rather than as a collection of scripts that had to be launched manually.
 
-The software therefore runs on a dedicated Linux server using systemd services and timers. Different processes handle production monitoring, sensor measurements, image analysis and daily summaries.
+The software therefore runs on a dedicated Linux server using **systemd services and timers**.
 
-A Telegram bot is also integrated into the system to provide monitoring information and notifications.
+Different processes are responsible for periodically retrieving production and meteorological data, performing the comparison, reading the optical sensor, processing images and generating daily monitoring summaries.
 
-This allowed the prototype to run continuously on the real installation and collect information without requiring a computer to be operated manually.
+A Telegram bot is also integrated into the system to provide information and notifications without requiring direct access to the server.
 
-## Technologies
+An example of the output generated by the system is shown below.
 
-The project brought together several areas that I wanted to explore within a single real-world system:
+<p align="center">
+  <img src="docs/images/sysstem_output.png" width="700" alt="Monitoring results and Telegram output">
+</p>
+
+This setup allowed the prototype to operate continuously on the real installation and collect information without requiring the monitoring scripts to be started manually.
+
+---
+
+## Technologies used
+
+The project brought together several areas of computer engineering that I wanted to explore within a single real-world system.
+
+**Software and infrastructure**
 
 - Python
 - OpenCV
 - Selenium
 - Requests
-- Linux and systemd
+- Linux
+- systemd
+- Telegram Bot API
+
+**Hardware and embedded systems**
+
 - ESP32
 - ESP32-CAM
 - BPW34 photodiode
+- Custom optical sensing prototype
+
+**External services and data**
+
 - Huawei FusionSolar
 - Open-Meteo
 - Roboflow
-- Telegram Bot API
+
+---
 
 ## Repository structure
 
@@ -70,38 +138,47 @@ The project brought together several areas that I wanted to explore within a sin
 ├── deployment/
 │   └── systemd/
 │
+├── docs/
+│   └── images/
+│
 ├── requirements.txt
 └── README.md
 ```
 
-`hardware/` contains the embedded code used by the ESP32 devices.
+The `hardware/` directory contains the firmware and embedded components used by the ESP32 devices.
 
-`software/vision/src/` contains the Python code responsible for data acquisition, production comparison, image processing, optical sensor logging and communication with Telegram.
+The main Python software is located under `software/vision/src/`. These modules handle production monitoring, meteorological data, image processing, optical sensor logging, daily summaries and Telegram communication.
 
-`deployment/systemd/` contains the service and timer templates used to deploy the system on Linux.
+The `deployment/systemd/` directory contains the service and timer templates used to automate the different processes on Linux.
+
+---
 
 ## Running the software
 
-Python dependencies are listed in `requirements.txt` and can be installed with:
+The Python dependencies used by the project are listed in `requirements.txt`.
+
+They can be installed inside a virtual environment with:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-The project requires configuration for external services before it can be executed.
+The project requires configuration for the external services used by the monitoring system.
 
-Credentials are provided through environment variables rather than being stored in the source code. This includes FusionSolar credentials and Telegram configuration.
+Credentials are provided through environment variables rather than being stored directly in the source code. This includes the FusionSolar credentials and Telegram configuration.
 
-Generated data such as logs, captured images, session cookies, cache files and debugging outputs are excluded from the repository.
+Runtime-generated data such as logs, captured images, debugging outputs, session cookies, cache files and daily summaries are excluded from the public repository.
 
-## About this repository
+---
 
-This repository represents the version of the system developed as part of my Bachelor's Thesis at the University of Almería.
+## About this project
 
-Finishing the thesis was not the end of the project.
+This system was developed as my **Bachelor's Thesis in Computer Engineering at the University of Almería**, where it received a final grade of **10/10 with Honors (Matrícula de Honor)**.
 
-While building and testing the system, I found several limitations in the original approach and many areas that I wanted to explore further. What began as an academic project has therefore become the starting point for a much longer-term project around photovoltaic monitoring, data and automation.
+What interested me most about the project was that it did not end when the thesis was submitted.
 
-I am continuing that work beyond the scope of the original thesis, with the goal of making the system more robust, scalable and useful in real photovoltaic installations.
+Building and running the system on a real installation exposed limitations that were difficult to see during the initial design and raised new questions about reliability, scalability and how photovoltaic installations can be monitored over longer periods of time.
 
-The ongoing development is maintained separately from this public academic repository.
+For that reason, I decided to continue working on the project after finishing my degree.
+
+This repository is kept as the public record of the system developed during the Bachelor's Thesis. The work that followed it is being developed separately, with the long-term goal of building a more robust and scalable approach to photovoltaic monitoring.
