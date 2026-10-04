@@ -1,5 +1,6 @@
 from pathlib import Path
 from datetime import datetime
+import os
 import json
 
 import cv2
@@ -19,9 +20,11 @@ MAX_DIRS_DEBUG = 60
 
 EXTS_IMG = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
-API_KEY = "RFWGKH08zG4HGcytBGXz"
+API_KEY = os.getenv("ROBOFLOW_API_KEY", "").strip()
 MODEL_ID = "solarpanel2-nip8i/1"
 
+if not API_KEY:
+    raise RuntimeError("Falta la variable de entorno ROBOFLOW_API_KEY.")
 
 
 def asegurar_dir(ruta: Path) -> Path:
